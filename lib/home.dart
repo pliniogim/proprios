@@ -66,14 +66,15 @@ class PropriosListView extends StatelessWidget {
             )),
       ),
       onTap: () => {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             PropriosListDetails(
-        //               movieName: movie.title,
-        //               movie: movie,
-        //             )))
+         Navigator.push(
+             context,
+             MaterialPageRoute(
+                 builder: (context) =>
+                     ProprioListDetails(
+                       dadoNome: dado.unidade,
+                       dado: dado,)
+             )
+         )
       },
     );
   }
@@ -99,6 +100,8 @@ class PropriosListView extends StatelessWidget {
                     fontSize: 18.0,
                     fontWeight: FontWeight.w700),
               ),
-            )));
+            )
+        )
+    );
   }
 }

@@ -1,53 +1,127 @@
-// import 'package:flutter/material.dart';
-//
-// import '../../model/movie.dart';
-//
-// class MovieField extends StatelessWidget {
-//   final String field;
-//   final String value;
-//
-//   const MovieField({Key? key, required this.field, required this.value})
-//       : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: <Widget>[
-//         Text("$field: ",
-//             style: const TextStyle(
-//               color: Colors.black,
-//               fontSize: 14,
-//               fontWeight: FontWeight.w300,
-//             )),
-//         Expanded(
-//           child: Text(value,
-//               style: const TextStyle(
-//                 color: Colors.black,
-//                 fontWeight: FontWeight.w300,
-//                 fontSize: 14,
-//               )),
-//         )
-//       ],
-//     );
-//   }
-// }
-//
-// class HorizontalLine extends StatelessWidget {
-//   const HorizontalLine({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 12),
-//       child: Container(
-//         height: 0.5,
-//         color: Colors.grey,
-//       ),
-//     );
-//   }
-// }
-//
+import 'package:flutter/material.dart';
+import '../../model/dados.dart';
+
+//New page/route
+class ProprioListDetails extends StatelessWidget {
+  final String dadoNome;
+  final Dado dado;
+
+  const ProprioListDetails(
+      {Key? key, required this.dadoNome, required this.dado})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Próprios PMSCS"),
+        backgroundColor: Colors.purple,
+      ),
+      body: ListView(children: <Widget>[
+        //MovieDetailsThumbnail(thumbnail: movie.images[0]),
+        //MovieDetailsHeaderWithPoster(movie: movie),
+        ProprioDetailsCast(dado: dado)
+      ]),
+    );
+  }
+}
+
+class ProprioDetailsCast extends StatelessWidget {
+  final Dado dado;
+
+  const ProprioDetailsCast({Key? key, required this.dado}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(children: <Widget>[
+          const HorizontalLine(),
+          ProprioField(field: "Código da Unidade: ", value: dado.unidade),
+          const HorizontalLine(),
+          ProprioField(field: "Próprio: ", value: dado.descricao),
+          const HorizontalLine(),
+          ProprioField(field: "Rede de Dados: ", value: dado.redeDados),
+          const HorizontalLine(),
+          ProprioField(field: "Vlan de Dados:", value: dado.vlanDados),
+          const HorizontalLine(),
+          ProprioField(field: "Rede de Voz: ", value: dado.redeVoz),
+          const HorizontalLine(),
+          ProprioField(field: "Vlan de Voz: ", value: dado.vlanVoz),
+          const HorizontalLine(),
+          ProprioField(field: "Rede WifiAdm: ", value: dado.redeWifiadm),
+          const HorizontalLine(),
+          ProprioField(field: "Vlan WifiAdm: ", value: dado.vlanWifiadm),
+          const HorizontalLine(),
+          ProprioField(field: "Rede Pedagógica: ", value: dado.redePedagogica),
+          const HorizontalLine(),
+          ProprioField(field: "Vlan Pedagógica: ", value: dado.vlanPedagogica),
+          const HorizontalLine(),
+          ProprioField(field: "IP Gerência Switch: ", value: dado.ipGerenciaSwitch),
+          const HorizontalLine(),
+          ProprioField(field: "IP Gerência ONU: ", value: dado.ipGerenciaOnu),
+          const HorizontalLine(),
+          ProprioField(field: "OLT: ", value: dado.olt),
+          const HorizontalLine(),
+          ProprioField(field: "Observação: ", value: dado.observacao),
+          const HorizontalLine(),
+
+          //MovieDetailsExtraPosters(posters: movie.images)
+        ]
+        )
+    );
+  }
+}
+
+class HorizontalLine extends StatelessWidget {
+  const HorizontalLine({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Container(
+        height: 0.5,
+        color: Colors.grey,
+      ),
+    );
+  }
+}
+
+
+class ProprioField extends StatelessWidget {
+  final String field;
+  final String value;
+
+  const ProprioField({Key? key, required this.field, required this.value})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text("$field",
+            style: const TextStyle(
+              color: Colors.purple,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            )),
+        Expanded(
+          child: Text(value,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w300,
+                fontSize: 16,
+              )),
+        )
+      ],
+    );
+  }
+}
+
+
 // class MovieDetailsExtraPosters extends StatelessWidget {
 //   final List<String> posters;
 //
@@ -91,43 +165,22 @@
 //         ]);
 //   }
 // }
-// //New page/route
-// class MovieListDetails extends StatelessWidget {
-//   final String movieName;
-//   final Movie movie;
-//
-//   const MovieListDetails({Key? key, required this.movieName, required this.movie})
-//       : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Movies"),
-//         backgroundColor: Colors.blueGrey.shade900,
+
+
+//   body: Center(
+//     child: Container(
+//       child: RaisedButton(
+//         child: Text("${this.movie.country} Back"),
+//         onPressed: () {
+//           Navigator.pop(context);
+//         },
 //       ),
-//       body: ListView(children: <Widget>[
-//         MovieDetailsThumbnail(thumbnail: movie.images[0]),
-//         MovieDetailsHeaderWithPoster(movie: movie),
-//         MovieDetailsCast(movie: movie)
-//       ]),
-//     );
-//   }
-//
-// //   body: Center(
-// //     child: Container(
-// //       child: RaisedButton(
-// //         child: Text("${this.movie.country} Back"),
-// //         onPressed: () {
-// //           Navigator.pop(context);
-// //         },
-// //       ),
-// //     ),
-// //   ),
-// // );
-// //  }
-// }
-//
+//     ),
+//   ),
+// );
+//  }
+//}
+
 // class MovieDetailsThumbnail extends StatelessWidget {
 //   final String thumbnail;
 //
@@ -247,33 +300,5 @@
 //   }
 // }
 //
-// class MovieDetailsCast extends StatelessWidget {
-//   final Movie movie;
-//
-//   const MovieDetailsCast({Key? key, required this.movie}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//         child: Column(children: <Widget>[
-//           const HorizontalLine(),
-//           MovieField(field: "Cast", value: movie.actors),
-//           const HorizontalLine(),
-//           MovieField(field: "Directors", value: movie.director),
-//           const HorizontalLine(),
-//           MovieField(field: "Awards", value: movie.awards),
-//           const HorizontalLine(),
-//           MovieField(field: "Runtime", value: movie.runtime),
-//           const HorizontalLine(),
-//           MovieField(field: "Country", value: movie.country),
-//           const HorizontalLine(),
-//           MovieField(field: "ImdbRating", value: movie.imdbRating),
-//           const HorizontalLine(),
-//           MovieField(field: "ImdbVotes", value: movie.imdbVotes),
-//           const HorizontalLine(),
-//           MovieDetailsExtraPosters(posters: movie.images)
-//         ]));
-//   }
-// }
-//
+
+
