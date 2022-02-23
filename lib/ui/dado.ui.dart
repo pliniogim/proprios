@@ -15,7 +15,7 @@ class ProprioListDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Próprios PMSCS"),
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.green,
       ),
       body: ListView(children: <Widget>[
         //MovieDetailsThumbnail(thumbnail: movie.images[0]),
@@ -82,7 +82,7 @@ class HorizontalLine extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Container(
         height: 0.5,
-        color: Colors.grey,
+        color: Colors.green,
       ),
     );
   }
@@ -104,7 +104,7 @@ class ProprioField extends StatelessWidget {
       children: <Widget>[
         Text("$field",
             style: const TextStyle(
-              color: Colors.purple,
+              color: Colors.teal,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             )),
@@ -112,7 +112,7 @@ class ProprioField extends StatelessWidget {
           child: Text(value,
               style: const TextStyle(
                 color: Colors.black,
-                fontWeight: FontWeight.w300,
+                fontWeight: FontWeight.w400,
                 fontSize: 16,
               )),
         )

@@ -13,9 +13,9 @@ class PropriosListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Próprios PMSCS"),
-        backgroundColor: Colors.purpleAccent,
+        backgroundColor: Colors.green,
       ),
-      backgroundColor: Colors.blueGrey.shade900,
+      //backgroundColor: Colors.greenAccent.shade200,
       body: ListView.builder(
           itemCount: dadoList.length,
           itemBuilder: (context, int index) {
@@ -38,7 +38,7 @@ class PropriosListView extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 90.0,
         child: Card(
-            color: Colors.purple.shade300,
+            color: Colors.greenAccent,
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 74.0, right: 5.0),
               child: Padding(
@@ -55,7 +55,7 @@ class PropriosListView extends StatelessWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.0,
-                                color: Colors.white,
+                                color: Colors.black87,
                               )),
                         ),
                       ],
@@ -80,7 +80,7 @@ class PropriosListView extends StatelessWidget {
   }
 
   TextStyle mainTextStyle() {
-    return const TextStyle(fontSize: 15.0, color: Colors.grey);
+    return const TextStyle(fontSize: 15.0, color: Colors.teal);
   }
 
   Widget dadoCircle(String unidade) {
@@ -90,7 +90,7 @@ class PropriosListView extends StatelessWidget {
             height: 50,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.purple,
+              color: Colors.teal,
             ),
             child: Center(
               child: Text(
