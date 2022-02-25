@@ -2,18 +2,61 @@ import "package:flutter/material.dart";
 import "package:proprios/model/dados.dart";
 import 'ui/dado.ui.dart';
 
-class PropriosListView extends StatelessWidget {
-  PropriosListView({Key? key}) : super(key: key);
+class PropriosListView extends StatefulWidget {
+  const PropriosListView({Key? key}) : super(key: key);
 
+  @override
+  _PropriosListViewState createState() => _PropriosListViewState();
+}
+
+class _PropriosListViewState extends State<PropriosListView> {
   final List<Dado> dadoList = Dado.getDados();
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('Próprios PMSCS');
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+     return Scaffold(
       appBar: AppBar(
-        title: const Text("Próprios PMSCS"),
-        backgroundColor: Colors.green,
+        title: customSearchBar,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal,
+        actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  if (customIcon.icon == Icons.search) {
+                    customIcon = const Icon(Icons.cancel);
+                    customSearchBar = const ListTile(
+                      leading: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      title: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Pesquisar por...',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+
+                      ),
+                    );
+                  } else {
+                    customIcon = const Icon(Icons.search);
+                    customSearchBar = const Text('Próprios PMSCS');
+                  }
+                });
+              },
+              icon: customIcon)
+        ],
       ),
       //backgroundColor: Colors.greenAccent.shade200,
       body: ListView.builder(
@@ -40,7 +83,8 @@ class PropriosListView extends StatelessWidget {
         child: Card(
             color: Colors.greenAccent,
             child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 74.0, right: 5.0),
+              padding: const EdgeInsets.only(
+                  top: 8.0, bottom: 8.0, left: 74.0, right: 5.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -66,15 +110,13 @@ class PropriosListView extends StatelessWidget {
             )),
       ),
       onTap: () => {
-         Navigator.push(
-             context,
-             MaterialPageRoute(
-                 builder: (context) =>
-                     ProprioListDetails(
-                       dadoNome: dado.unidade,
-                       dado: dado,)
-             )
-         )
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProprioListDetails(
+                      dadoNome: dado.unidade,
+                      dado: dado,
+                    )))
       },
     );
   }
@@ -100,8 +142,6 @@ class PropriosListView extends StatelessWidget {
                     fontSize: 18.0,
                     fontWeight: FontWeight.w700),
               ),
-            )
-        )
-    );
+            )));
   }
 }

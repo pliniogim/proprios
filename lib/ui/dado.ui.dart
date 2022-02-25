@@ -12,10 +12,11 @@ class ProprioListDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Próprios PMSCS"),
-        backgroundColor: Colors.green,
+        title: const Text('Próprios PMSCS'),
+        backgroundColor: Colors.teal,
       ),
       body: ListView(children: <Widget>[
         //MovieDetailsThumbnail(thumbnail: movie.images[0]),
@@ -102,7 +103,7 @@ class ProprioField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Text("$field",
+        Text(field,
             style: const TextStyle(
               color: Colors.teal,
               fontSize: 16,
