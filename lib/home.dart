@@ -13,7 +13,6 @@ class _PropriosListViewState extends State<PropriosListView> {
   final List<Dado> dadoList = Dado.getDados();
   final List<String> lista = Dado.getDescricao();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +23,11 @@ class _PropriosListViewState extends State<PropriosListView> {
             onPressed: () {
               showSearch(context: context, delegate: Search(lista));
             },
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
           )
         ],
         centerTitle: false,
-        title: Text('Próprios PMSCS'),
+        title: const Text('Próprios PMSCS'),
       ),
       body: ListView.builder(
           itemCount: dadoList.length,
@@ -44,8 +43,6 @@ class _PropriosListViewState extends State<PropriosListView> {
           }),
     );
   }
-
-
 
   Widget dadoCard(Dado dado, BuildContext context) {
     return InkWell(
@@ -119,22 +116,23 @@ class _PropriosListViewState extends State<PropriosListView> {
   }
 }
 
-class Search extends SearchDelegate {
+class Search extends SearchDelegate implements Dado {
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       IconButton(
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
         onPressed: () {
           query = "";
         },
       ),
     ];
   }
+
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         Navigator.pop(context);
       },
@@ -145,14 +143,66 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(selectedResult),
-      ),
-    );
+    List<Dado> result = getDadoFromDescricao(selectedResult);
+    int index = getDadoFromIndex(selectedResult)!;
+    return ListView(children: <Widget>[
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(children: <Widget>[
+            const HorizontalLine(),
+            ProprioField(
+                field: "Código da Unidade: ", value: result[index].unidade),
+            const HorizontalLine(),
+            ProprioField(field: "Próprio: ", value: result[index].descricao),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Rede de Dados: ", value: result[index].redeDados),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Vlan de Dados:", value: result[index].vlanDados),
+            const HorizontalLine(),
+            ProprioField(field: "Rede de Voz: ", value: result[index].redeVoz),
+            const HorizontalLine(),
+            ProprioField(field: "Vlan de Voz: ", value: result[index].vlanVoz),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Rede WifiAdm: ", value: result[index].redeWifiadm),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Vlan WifiAdm: ", value: result[index].vlanWifiadm),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Rede Pedagógica: ",
+                value: result[index].redePedagogica),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Vlan Pedagógica: ",
+                value: result[index].vlanPedagogica),
+            const HorizontalLine(),
+            ProprioField(
+                field: "IP Gerência Switch: ",
+                value: result[index].ipGerenciaSwitch),
+            const HorizontalLine(),
+            ProprioField(
+                field: "IP Gerência ONU: ", value: result[index].ipGerenciaOnu),
+            const HorizontalLine(),
+            ProprioField(field: "OLT: ", value: result[index].olt),
+            const HorizontalLine(),
+            ProprioField(
+                field: "Observação: ", value: result[index].observacao),
+            const HorizontalLine(),
+          ]))
+    ]);
+
+    // return Container(
+    //   child: Center(
+    //     child: Text(result[0].unidade),
+    //   ),
+    // );
   }
 
   final List<String> listExample;
+
   Search(this.listExample);
 
   List<String> recentList = [" "];
@@ -163,9 +213,9 @@ class Search extends SearchDelegate {
     query.isEmpty
         ? suggestionList = recentList //In the true case
         : suggestionList.addAll(listExample.where(
-      // In the false case
-          (element) => element.contains(query.toUpperCase()),
-    ));
+            // In the false case
+            (element) => element.contains(query.toUpperCase()),
+          ));
 
     return ListView.builder(
       itemCount: suggestionList.length,
@@ -174,13 +224,75 @@ class Search extends SearchDelegate {
           title: Text(
             suggestionList[index],
           ),
-          leading: query.isEmpty ? Icon(Icons.access_time) : SizedBox(),
-          onTap: (){
-            selectedResult = suggestionList[index];
+          leading: query.isEmpty ? const SizedBox() : const SizedBox(),
+          onTap: () {
+            selectedResult = suggestionList[index].toUpperCase();
             showResults(context);
           },
         );
       },
     );
+  }
+
+  @override
+  String dataAtivacao = "";
+  @override
+  String descricao = "";
+  @override
+  String dominio = "";
+  @override
+  String fileserver = "";
+  @override
+  String hostname = "";
+  @override
+  String ipGerenciaOnu = "";
+  @override
+  String ipGerenciaSwitch = "";
+  @override
+  String observacao = "";
+  @override
+  String olt = "";
+  @override
+  String redeDados = "";
+  @override
+  String redePedagogica = "";
+  @override
+  String redeVoz = "";
+  @override
+  String redeWifiadm = "";
+  @override
+  String statusAtivacao = "";
+  @override
+  String unidade = "";
+  @override
+  String vlanDados = "";
+  @override
+  String vlanPedagogica = "";
+  @override
+  String vlanVoz = "";
+  @override
+  String vlanWifiadm = "";
+
+  final List<Dado> dadoList1 = Dado.getDados();
+
+  List<Dado> getDadoFromDescricao(String query) {
+    List<Dado> _listaNova = Dado.getDados();
+    List<Dado> _retornoDado = [];
+    for (int i = 0; i < _listaNova.length; i++) {
+      if (_listaNova[i].descricao.contains(descricao)) {
+        _retornoDado.add(_listaNova[i]);
+      }
+    }
+    return _retornoDado;
+  }
+
+  int? getDadoFromIndex(String selectedResult) {
+    int retorno = 0;
+    for (int i = 0; i < dadoList1.length; i++) {
+      if (dadoList1[i].descricao.toString().toUpperCase() == selectedResult.toUpperCase()) {
+        retorno = i;
+       }
+    }
+    return retorno;
   }
 }
