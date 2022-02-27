@@ -11,54 +11,25 @@ class PropriosListView extends StatefulWidget {
 
 class _PropriosListViewState extends State<PropriosListView> {
   final List<Dado> dadoList = Dado.getDados();
-  Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = const Text('Próprios PMSCS');
+  final List<String> lista = Dado.getDescricao();
+
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: customSearchBar,
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.teal,
-        actions: [
+        actions: <Widget>[
           IconButton(
-              onPressed: () {
-                setState(() {
-                  if (customIcon.icon == Icons.search) {
-                    customIcon = const Icon(Icons.cancel);
-                    customSearchBar = const ListTile(
-                      leading: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      title: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Pesquisar por...',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-
-                      ),
-                    );
-                  } else {
-                    customIcon = const Icon(Icons.search);
-                    customSearchBar = const Text('Próprios PMSCS');
-                  }
-                });
-              },
-              icon: customIcon)
+            onPressed: () {
+              showSearch(context: context, delegate: Search(lista));
+            },
+            icon: Icon(Icons.search),
+          )
         ],
+        centerTitle: false,
+        title: Text('Próprios PMSCS'),
       ),
-      //backgroundColor: Colors.greenAccent.shade200,
       body: ListView.builder(
           itemCount: dadoList.length,
           itemBuilder: (context, int index) {
@@ -73,6 +44,8 @@ class _PropriosListViewState extends State<PropriosListView> {
           }),
     );
   }
+
+
 
   Widget dadoCard(Dado dado, BuildContext context) {
     return InkWell(
@@ -143,5 +116,71 @@ class _PropriosListViewState extends State<PropriosListView> {
                     fontWeight: FontWeight.w700),
               ),
             )));
+  }
+}
+
+class Search extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return <Widget>[
+      IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {
+          query = "";
+        },
+      ),
+    ];
+  }
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  String selectedResult = "";
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text(selectedResult),
+      ),
+    );
+  }
+
+  final List<String> listExample;
+  Search(this.listExample);
+
+  List<String> recentList = [" "];
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> suggestionList = [];
+    query.isEmpty
+        ? suggestionList = recentList //In the true case
+        : suggestionList.addAll(listExample.where(
+      // In the false case
+          (element) => element.contains(query.toUpperCase()),
+    ));
+
+    return ListView.builder(
+      itemCount: suggestionList.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(
+            suggestionList[index],
+          ),
+          leading: query.isEmpty ? Icon(Icons.access_time) : SizedBox(),
+          onTap: (){
+            selectedResult = suggestionList[index];
+            showResults(context);
+          },
+        );
+      },
+    );
   }
 }
