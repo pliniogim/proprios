@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import "dart:ui";
 
-void main() => runApp( MaterialApp(
+
+void main() => runApp( const MaterialApp(
     home: PropriosListView(),
     debugShowCheckedModeBanner: false,));
 

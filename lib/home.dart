@@ -143,62 +143,63 @@ class Search extends SearchDelegate implements Dado {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<Dado> result = getDadoFromDescricao(selectedResult);
+    List<Dado> result = dadoList1;
     int index = getDadoFromIndex(selectedResult)!;
-    return ListView(children: <Widget>[
-      Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(children: <Widget>[
-            const HorizontalLine(),
-            ProprioField(
-                field: "Código da Unidade: ", value: result[index].unidade),
-            const HorizontalLine(),
-            ProprioField(field: "Próprio: ", value: result[index].descricao),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Rede de Dados: ", value: result[index].redeDados),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Vlan de Dados:", value: result[index].vlanDados),
-            const HorizontalLine(),
-            ProprioField(field: "Rede de Voz: ", value: result[index].redeVoz),
-            const HorizontalLine(),
-            ProprioField(field: "Vlan de Voz: ", value: result[index].vlanVoz),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Rede WifiAdm: ", value: result[index].redeWifiadm),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Vlan WifiAdm: ", value: result[index].vlanWifiadm),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Rede Pedagógica: ",
-                value: result[index].redePedagogica),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Vlan Pedagógica: ",
-                value: result[index].vlanPedagogica),
-            const HorizontalLine(),
-            ProprioField(
-                field: "IP Gerência Switch: ",
-                value: result[index].ipGerenciaSwitch),
-            const HorizontalLine(),
-            ProprioField(
-                field: "IP Gerência ONU: ", value: result[index].ipGerenciaOnu),
-            const HorizontalLine(),
-            ProprioField(field: "OLT: ", value: result[index].olt),
-            const HorizontalLine(),
-            ProprioField(
-                field: "Observação: ", value: result[index].observacao),
-            const HorizontalLine(),
-          ]))
-    ]);
-
-    // return Container(
-    //   child: Center(
-    //     child: Text(result[0].unidade),
-    //   ),
-    // );
+    if(index != 999) {
+      return ListView(children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(children: <Widget>[
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Código da Unidade: ", value: result[index].unidade),
+              const HorizontalLine(),
+              ProprioField(field: "Próprio: ", value: result[index].descricao),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Rede de Dados: ", value: result[index].redeDados),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Vlan de Dados:", value: result[index].vlanDados),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Rede de Voz: ", value: result[index].redeVoz),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Vlan de Voz: ", value: result[index].vlanVoz),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Rede WifiAdm: ", value: result[index].redeWifiadm),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Vlan WifiAdm: ", value: result[index].vlanWifiadm),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Rede Pedagógica: ",
+                  value: result[index].redePedagogica),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Vlan Pedagógica: ",
+                  value: result[index].vlanPedagogica),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "IP Gerência Switch: ",
+                  value: result[index].ipGerenciaSwitch),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "IP Gerência ONU: ",
+                  value: result[index].ipGerenciaOnu),
+              const HorizontalLine(),
+              ProprioField(field: "OLT: ", value: result[index].olt),
+              const HorizontalLine(),
+              ProprioField(
+                  field: "Observação: ", value: result[index].observacao),
+              const HorizontalLine(),
+            ]))
+      ]);
+    } else {
+      return const Center(child: Text("Não encontrado..."));
+    }
   }
 
   final List<String> listExample;
@@ -226,7 +227,7 @@ class Search extends SearchDelegate implements Dado {
           ),
           leading: query.isEmpty ? const SizedBox() : const SizedBox(),
           onTap: () {
-            selectedResult = suggestionList[index].toUpperCase();
+            selectedResult = suggestionList[index];
             showResults(context);
           },
         );
@@ -275,23 +276,20 @@ class Search extends SearchDelegate implements Dado {
 
   final List<Dado> dadoList1 = Dado.getDados();
 
-  List<Dado> getDadoFromDescricao(String query) {
-    List<Dado> _listaNova = Dado.getDados();
-    List<Dado> _retornoDado = [];
-    for (int i = 0; i < _listaNova.length; i++) {
-      if (_listaNova[i].descricao.contains(descricao)) {
-        _retornoDado.add(_listaNova[i]);
-      }
-    }
-    return _retornoDado;
-  }
-
   int? getDadoFromIndex(String selectedResult) {
-    int retorno = 0;
+    var selectedResult1 = " ";
+    if (selectedResult.length > 3) {
+      int s = selectedResult.indexOf('|');
+      selectedResult1 = selectedResult.substring(0, s);
+    } else {
+      selectedResult1 = "umapinoia";
+    }
+    int retorno = 999;
     for (int i = 0; i < dadoList1.length; i++) {
-      if (dadoList1[i].descricao.toString().toUpperCase() == selectedResult.toUpperCase()) {
+       if (dadoList1[i].descricao.toUpperCase() ==
+          selectedResult1.toUpperCase()) {
         retorno = i;
-       }
+      }
     }
     return retorno;
   }
