@@ -130,6 +130,23 @@ class Search extends SearchDelegate implements Dado {
   }
 
   @override
+  String get searchFieldLabel => 'Pesquisar...';
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.teal,
+        ),
+        textTheme: const TextTheme(
+            headline6: TextStyle(
+          color: Colors.white,
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+        )));
+  }
+
+  @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
@@ -145,7 +162,7 @@ class Search extends SearchDelegate implements Dado {
   Widget buildResults(BuildContext context) {
     List<Dado> result = dadoList1;
     int index = getDadoFromIndex(selectedResult)!;
-    if(index != 999) {
+    if (index != 999) {
       return ListView(children: <Widget>[
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -286,7 +303,7 @@ class Search extends SearchDelegate implements Dado {
     }
     int retorno = 999;
     for (int i = 0; i < dadoList1.length; i++) {
-       if (dadoList1[i].descricao.toUpperCase() ==
+      if (dadoList1[i].descricao.toUpperCase() ==
           selectedResult1.toUpperCase()) {
         retorno = i;
       }
