@@ -296,7 +296,7 @@ class Search extends SearchDelegate implements Dado {
   int? getDadoFromIndex(String selectedResult) {
     var selectedResult1 = " ";
     if (selectedResult.length > 3) {
-      int s = selectedResult.indexOf('|');
+      int s = selectedResult.indexOf(':');
       selectedResult1 = selectedResult.substring(0, s);
     } else {
       selectedResult1 = "umapinoia";
